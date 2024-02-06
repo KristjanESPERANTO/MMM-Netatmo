@@ -1,24 +1,30 @@
+const globals = require('globals')
+const { configs: eslintConfigs } = require('@eslint/js')
+const eslintPluginImport = require('eslint-plugin-import')
+const eslintPluginStylistic = require('@stylistic/eslint-plugin')
+
 module.exports = [
   {
-      rules: {
-          "comma-dangle": ["error", "always-multiline"],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.jest,
+        ...globals.node,
+        Log: 'readonly',
+        Module: 'readonly',
       },
+    },
+    plugins: {
+      ...eslintPluginStylistic.configs['recommended-flat'].plugins,
+      import: eslintPluginImport,
+    },
+    rules: {
+      ...eslintConfigs['recommended'].rules,
+      ...eslintPluginImport.configs['recommended'].rules,
+      ...eslintPluginStylistic.configs['recommended-flat'].rules,
+      '@stylistic/comma-dangle': ['error', 'always-multiline'],
+      '@stylistic/brace-style': ['error', '1tbs', { allowSingleLine: true }],
+      '@stylistic/max-statements-per-line': ['error', { max: 2 }],
+    },
   },
-];
-
-// current config
-// env:
-//   browser: true
-//   es2022: true
-//   node: true
-//   jest: true
-// extends:
-//   - standard
-// parserOptions:
-//   sourceType: module
-//   ecmaVersion: 2022
-// globals:
-//   Module: true
-//   Log: true
-// rules:
-//   "comma-dangle": ["error", "always-multiline"]
+]

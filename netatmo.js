@@ -4,7 +4,6 @@
  * By Christopher Fenner http://github.com/CFenner
  * MIT Licensed.
  */
-/* global Module */
 Module.register('netatmo', {
   // default config
   defaults: {
